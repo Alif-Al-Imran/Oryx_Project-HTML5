@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Game</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        #game {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #target {
+            width: 500px;
+            height: 100px;
+            background-color: #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #input {
+            margin-top: 20px;
+        }
+
+        #input input {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        #score,
+        #timer {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game">
+        <h1>Typing Game</h1>
+        <div id="target">
+            <p></p>
+        </div>
+        <div id="input">
+            <input type="text" id="userInput">
+        </div>
+        <div id="score">
+            <p>Score: 0</p>
+        </div>
+        <div id="timer">
+            <p>Time: 60</p>
+        </div>
+    </div>
+
+    <script>
+        const targetElement = document.getElementById('target');
+        const userInputElement = document.getElementById('userInput');
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+
+        let score = 0;
+        let timeLeft = 60;
+
+        const generateWord = () => {
+            const words = ['apple', 'orange', 'banana', 'grape', 'strawberry'];
+            const randomIndex = Math.floor(Math.random() * words.length);
+            const word = words[randomIndex];
+
+            targetElement.textContent = word;
+        };
+
+        const checkInput = () => {
+            const userInput = userInputElement.value.trim().toLowerCase();
+            const targetWord = targetElement.textContent.toLowerCase();
+
+            if (userInput === targetWord) {
+                score++;
+                scoreElement.textContent = `Score: ${score}`;
+                generateWord();
+                userInputElement.value = '';
+            }
+        };
+
+        const updateTimer = () => {
+            timeLeft--;
+            timerElement.textContent = `Time: ${timeLeft}`;
+
+            if (timeLeft === 0) {
+                alert('Game Over!');
+            }
+        };
+
+        generateWord();
+
+        userInputElement.addEventListener('keyup', checkInput);
+
+        setInterval(updateTimer, 1000);
+
+    </script>
+</body>
+
+</html>

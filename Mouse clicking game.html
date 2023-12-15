@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clicking Game</title>
+    <style>
+        .container {
+            width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: blue;
+        }
+
+        .score {
+            margin: 20px 0;
+            color: blueviolet;
+
+        }
+        .timer {
+            margin: 20px 0;
+            color: red;
+        }
+
+        .target {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            background-color: #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .target p {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            top: 25px;
+            left: 25px;
+            color: rgb(24, 4, 97);
+            font-size: 17px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Clicking Game</h1>
+        <div class="score">
+            <p>Score: <span id="score">0</span></p>
+        </div>
+        <div class="target" id="target">
+            <p>Catch me!</p>
+        </div>
+        <div class="timer">
+            <p>Time: <span id="timer">10</span></p>
+        </div>
+    </div>
+
+    <script>
+        const target = document.getElementById('target');
+        const scoreElement = document.getElementById('score');
+        const timerElement = document.getElementById('timer');
+
+        let score = 0;
+        let time = 10;
+
+        target.addEventListener('click', () => {
+            score++;
+            scoreElement.textContent = score;
+
+            target.style.left = Math.random() * 400 + 'px';
+            target.style.top = Math.random() * 300 + 'px';
+        });
+
+        const interval = setInterval(() => {
+            time--;
+            timerElement.textContent = time;
+
+            if (time === 0) {
+                clearInterval(interval);
+                alert('Game over! Your score is: ' + score);
+            }
+        }, 1000);
+
+    </script>
+</body>
+
+</html>

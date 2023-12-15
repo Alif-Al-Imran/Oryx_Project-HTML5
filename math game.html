@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Quiz</title>
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: sans-serif;
+        }
+
+        .container {
+            width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .question {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .answer {
+            display: block;
+            padding: 5px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .answer.correct {
+            background-color: #0f0;
+            color: #fff;
+        }
+
+        .answer.incorrect {
+            background-color: #f00;
+            color: #fff;
+        }
+
+        #score {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #feedback {
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Math Quiz</h1>
+
+        <div id="questions">
+            <div class="question">What is 2 + 2?</div>
+            <div class="answer" onclick="checkAnswer(this, 4)">4</div>
+            <div class="answer" onclick="checkAnswer(this, 3)">3</div>
+            <div class="answer" onclick="checkAnswer(this, 1)">1</div>
+        </div>
+
+        <div id="score"></div>
+        <div id="feedback"></div>
+    </div>
+
+    <script>
+        var score = 0;
+        var currentQuestion = 0;
+
+        var questions = [
+            {
+                question: "What is 2 + 2?",
+                correctAnswer: 4
+            },
+            {
+                question: "What is 5 x 5?",
+                correctAnswer: 25
+            },
+            {
+                question: "What is 10 - 3?",
+                correctAnswer: 7
+            }
+        ];
+
+        function checkAnswer(answerElement, correctAnswer) {
+            if (answerElement.textContent === String(correctAnswer)) {
+                score++;
+                answerElement.classList.add("correct");
+            } else {
+                answerElement.classList.add("incorrect");
+            }
+
+            showFeedback();
+        }
+
+        function showFeedback() {
+            var feedbackElement = document.getElementById("feedback");
+            var feedbackMessage = "";
+
+            if (currentQuestion === questions.length - 1) {
+                feedbackMessage = "You have completed the quiz. Your score is " + score + " out of " + questions.length + ".";
+            } else {
+                feedbackMessage = "The correct answer is " + questions[currentQuestion].correctAnswer + ". Please proceed to the next question.";
+            }
+
+            feedbackElement.textContent = feedbackMessage;
+        }
+    </script>
+</body>
+</html>

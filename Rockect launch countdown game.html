@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count Down!</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #3b96c5;
+        }
+
+        h2 {
+            font-family: sans-serif;
+            text-align: center;
+            color: #ffe608;
+        }
+
+        .canvas1 {
+            display: block;
+            border: 1px solid black;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 5%;
+            background-color: #55c2eb;
+        }
+
+        .rocket {
+            position: absolute;
+            top: 50%;
+            left: 35%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 100px;
+            background-color: red;
+        }
+
+        .fire {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 30px;
+            background-color: orange;
+        }
+
+        #instructions {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2 id="name"></h2>
+    <div class="rocket">
+        <div class="fire"></div>
+    </div>
+    <canvas class="canvas1" id="canvas" width="800" height="450"></canvas>
+    <p id="instructions"></p>
+
+
+    <script>
+        const rocket = document.querySelector('.rocket');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const instructions = document.getElementById('instructions');
+        const oname = document.getElementById('name');
+
+        let number = 4;
+        let isCountingDown = false;
+
+        function animateRocket() {
+
+            const animation = setInterval(() => {
+                const top = parseInt(rocket.style.top);
+                if (top <= 0) {
+                    clearInterval(animation);
+                } else {
+                    rocket.style.top = `${top - 1}%`;
+                }
+            }, 10);
+        }
+        function begin() {
+            ctx.fillStyle = "#9fd2e3";
+            ctx.fillRect(50, 350, 700, 100);
+        }
+        begin();
+
+        function drawNumber(number) {
+            ctx.clearRect(0, 0, canvas.width, 300);
+            ctx.font = "48px Arial";
+            ctx.fillStyle = "black";
+            ctx.textAlign = "center";
+            ctx.fillText(number, canvas.width / 2, canvas.height / 2);
+            ctx.beginPath();
+            ctx.arc((number + 1) * 140, 400, 40, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.fillText(number, (number + 1) * 140, 420);
+            if(number ==0){
+                animateRocket();
+                instructions.textContent = "Rocket launced successfully!";
+            }
+        }
+
+        function startCountdown() {
+            isCountingDown = true;
+            instructions.textContent = "Count down to 4,3,2,1,0!";
+            rocket.style.top = '50%';
+        }
+
+        function handleMouseDown(event) {
+            if (isCountingDown) {
+                if (number > 0) {
+                    number--;
+                    drawNumber(number);
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    isCountingDown = false;
+                    number = 4;
+                    begin();
+                    instructions.textContent = "Click inside the box to launch another rocket!";
+                }
+            } else {
+                startCountdown();
+                drawNumber(number);
+            }
+        }
+
+        canvas.addEventListener('mousedown', handleMouseDown);
+
+        oname.textContent = "Oryx rocket game prototype - Alif";
+        instructions.textContent = "Click inside the box to start countdown!";
+    </script>
+</body>
+
+</html>
